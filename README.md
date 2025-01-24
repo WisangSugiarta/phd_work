@@ -1,2 +1,2 @@
-# phd_work
-Non-thesis or RA work
+# PhD Work
+Repo related to course work, experimentation and research.
