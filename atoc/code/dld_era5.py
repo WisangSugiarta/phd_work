@@ -129,8 +129,15 @@ def pivot_era5_single(name):
     
     df.drop(columns=[col for col in ['number', 'expver'] if col in df.columns], inplace=True)
     df_reset = df.reset_index()
-    feature_columns = df_reset.columns[3:]
 
+    # Filter to keep only integer lat/lon values
+    mask = (
+        (df_reset['latitude'] % 1 == 0) &
+        (df_reset['longitude'] % 1 == 0)
+    )
+    df_reset = df_reset[mask]
+
+    feature_columns = df_reset.columns[3:]
     df_pivot = df_reset.pivot(index="valid_time", columns=["latitude", "longitude"], values=feature_columns)
     df_pivot.columns = [f"{lat}-{lon}_{feature}" for feature, lat, lon in df_pivot.columns]
 
@@ -139,11 +146,20 @@ def pivot_era5_single(name):
 def pivot_era5_pressure(name):
     ds = xr.open_dataset(name)
     df = ds.to_dataframe()
-    
+    df = df.reset_index(level='time', drop=True)
+    df.dropna(inplace=True)
+
     df.drop(columns=[col for col in ['number', 'expver'] if col in df.columns], inplace=True)
     df_reset = df.reset_index()
-    feature_columns = df_reset.columns[4:]
 
+    # Filter to keep only integer lat/lon values
+    mask = (
+        (df_reset['latitude'] % 1 == 0) &
+        (df_reset['longitude'] % 1 == 0)
+    )
+    df_reset = df_reset[mask]
+
+    feature_columns = df_reset.columns[4:]
     df_pivot = df_reset.pivot(index="valid_time", columns=["latitude", "longitude", "pressure_level"], values=feature_columns)
     df_pivot.columns = [f"{lat}-{lon}_{pressure}_{feature}" for feature, lat, lon, pressure in df_pivot.columns]
 
@@ -160,7 +176,7 @@ def merge_era5(name_s, name_p):
     return df
 
 if __name__ == "__main__":
-    start = '2020-01-01'
+    start = '2024-01-01'
     end = '2025-01-02'
     area =  [41, -110, 37, -102]
 
