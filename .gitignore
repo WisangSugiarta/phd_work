@@ -1,0 +1,5 @@
+# Ignore everything inside atoc/code/data/
+atoc/code/data/*
+
+# But allow the directory itself to be tracked
+!atoc/data/.gitkeep
