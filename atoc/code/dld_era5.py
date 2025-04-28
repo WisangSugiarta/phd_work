@@ -176,8 +176,8 @@ def merge_era5(name_s, name_p):
     return df
 
 if __name__ == "__main__":
-    start = '2024-01-01'
-    end = '2025-01-02'
+    start = '2024-01-02'
+    end = '2025-01-01'
     area =  [41, -110, 37, -102]
 
     name_s = parallel_download_era5(
