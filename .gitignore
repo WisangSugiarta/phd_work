@@ -1,5 +1,7 @@
 # Ignore everything inside atoc/code/data/
 atoc/code/data/*
+chaotic_winds/code/data/*
+*.nc
 *.csv
 
 # But allow the directory itself to be tracked
